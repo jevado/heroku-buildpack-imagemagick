@@ -36,9 +36,9 @@ function package_download() {
 
 # we need this directory, it's our destination
 lib_path=$BUILD_DIR/vendor/imagemagick/lib/
-mkdir -p $lib_path
-
 config_path=$BUILD_DIR/vendor/imagemagick/etc/ImageMagick
+
+mkdir -p $lib_path $config_path
 
 echo "Installing libpng $LIBPNG_VERSION" | arrow
 
