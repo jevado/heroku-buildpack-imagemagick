@@ -64,7 +64,8 @@ mkdir -p "$BUILD_DIR/bin/"
 cp $VENDORED_IMAGEMAGICK/bin/* "$BUILD_DIR/bin/"
 
 cp -R $VENDORED_IMAGEMAGICK/lib/* $lib_path
-cp -R /usr/share/ImageMagick-6.5.7/config* $config_path
+cp -R /usr/share/ImageMagick-6.5.7/config/* $config_path
+cp -R /usr/lib/ImageMagick-6.5.7/config/* $config_path
 
 echo "Installation completed" | indent
 
