@@ -38,7 +38,7 @@ function package_download() {
 lib_path=$BUILD_DIR/vendor/imagemagick/lib/
 mkdir -p $lib_path
 
-config_path=/usr/share/ImageMagick-6.5.7/config
+config_path=$BUILD_DIR/vendor/imagemagick/etc/ImageMagick
 
 echo "Installing libpng $LIBPNG_VERSION" | arrow
 
@@ -64,7 +64,7 @@ mkdir -p "$BUILD_DIR/bin/"
 cp $VENDORED_IMAGEMAGICK/bin/* "$BUILD_DIR/bin/"
 
 cp -R $VENDORED_IMAGEMAGICK/lib/* $lib_path
-cp -R $VENDORED_IMAGEMAGICK/etc/ImageMagick* $config_path
+cp -R /usr/share/ImageMagick-6.5.7/config* $config_path
 
 echo "Installation completed" | indent
 
