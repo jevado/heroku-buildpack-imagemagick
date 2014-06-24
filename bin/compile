@@ -36,7 +36,9 @@ function package_download() {
 
 # we need this directory, it's our destination
 lib_path=$BUILD_DIR/vendor/imagemagick/lib/
-mkdir -p $lib_path
+include_path=$BUILD_DIR/vendor/imagemagick/include/
+
+mkdir -p $lib_path $include_path
 
 echo "Installing libpng $LIBPNG_VERSION" | arrow
 
@@ -62,10 +64,25 @@ mkdir -p "$BUILD_DIR/bin/"
 cp $VENDORED_IMAGEMAGICK/bin/* "$BUILD_DIR/bin/"
 
 cp -R $VENDORED_IMAGEMAGICK/lib/* $lib_path
+cp -R $VENDORED_IMAGEMAGICK/include/* $include_path
 
 echo "Installation completed" | indent
 
 echo "Building runtime environment for imagemagick" | arrow
 mkdir -p $BUILD_DIR/.profile.d
-echo "export PATH=\"\$HOME/bin:\$PATH\"" > $BUILD_DIR/.profile.d/imagemagick.sh
-echo "export LD_RUN_PATH=\"$lib_path:\$LD_RUN_PATH\"" >> $BUILD_DIR/.profile.d/imagemagick.sh
+
+cat > $BUILD_DIR/.profile.d/imagemagick.sh <<EOF
+export PATH="\$HOME/bin:\$PATH"
+export MAGICK_HOME="\$HOME/vendor/imagemagick"
+export LD_LIBRARY_PATH="\$MAGICK_HOME/lib:\$LD_LIBRARY_PATH"
+export LD_RUN_PATH="\$MAGICK_HOME/lib:\$LD_RUN_PATH"
+export PKG_CONFIG_PATH="\$MAGICK_HOME/lib/pkgconfig/:\$PKG_CONFIG_PATH"
+export MAGICK_CONFIGURE_PATH="/usr/share/ImageMagick-6.5.7"
+EOF
+
+export PATH="$BUILD_DIR/bin:$PATH"
+export MAGICK_HOME="$BUILD_DIR/vendor/imagemagick"
+export LD_LIBRARY_PATH="$MAGICK_HOME/lib:$LD_LIBRARY_PATH"
+export LD_RUN_PATH="$MAGICK_HOME/lib:$LD_RUN_PATH"
+export PKG_CONFIG_PATH="$MAGICK_HOME/lib/pkgconfig/:$PKG_CONFIG_PATH"
+export MAGICK_CONFIGURE_PATH="$MAGICK_CONFIGURE_PATH"
